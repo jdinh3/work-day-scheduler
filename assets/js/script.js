@@ -1,28 +1,21 @@
-var schedule = [];
 const tableBody = $("#table-body"); //$("<div>")
 
 // Displays current date
 var currentDay = moment().format("dddd, MMMM Do");
 $("#currentDay").text(currentDay);
 
-// generating the rest of the rows
+// generating the rows
 function createRows() {
-  /**
-     *    <tr class="row-div">
-            <th
-              class="col d-flex justify-content-between time-cell"
-              scope="row"
-            >
-              9am
-            </th>
-            <td class="col-6 user-input">Mark</td>
-            <td class="col">
-              <button class="saveBtn" img src="#" alt="save button">
-                Save
-              </button>
-            </td>
-          </tr>
-     */
+  // <tr class="row-div">
+  //       <th class="col d-flex justify-content-between time-cell" scope="row">
+  //         9am
+  //       </th>
+  //       <td class="col-6"><textarea class="user-input"></textarea></td>
+  //       <td class="col">
+  //         <button class="saveBtn" img src="#" alt="save button">Save</button>
+  //       </td>
+  //     </tr>
+
   const currentHour = parseInt(moment().format("HH"));
 
   for (let index = 0; index < 9; index++) {
@@ -35,6 +28,7 @@ function createRows() {
     th.text(rowHour);
     th.attr("scope", "row");
     const td = $("<td>").addClass("col-6 user-input");
+    const textArea = $("<textarea>").addClass("user-input");
 
     if (currentHour === rowHour) {
       td.addClass("present");
@@ -46,6 +40,8 @@ function createRows() {
     const tdBtn = $("<td>").addClass("col");
     const saveBtn = $("<button>").addClass("saveBtn");
     tdBtn.append(saveBtn);
+
+    td.append(textArea);
 
     rowDiv.append(th, td, tdBtn);
 
