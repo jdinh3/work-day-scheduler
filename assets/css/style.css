@@ -1,5 +1,5 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1;
 }
@@ -18,13 +18,13 @@ textarea {
 }
 
 .saveBtn {
-  height:
+  height: ;
 }
 
 .time-cell {
   padding: 40px !important;
- text-align: center;
- font-size: 24px;
+  text-align: center;
+  font-size: 24px;
 }
 
 .jumbotron {
