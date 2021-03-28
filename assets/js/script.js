@@ -1,4 +1,7 @@
+//DOM variables
 const tableBody = $("#table-body");
+
+// js variables
 var listOfText = [];
 var localStorageExist = false;
 
@@ -63,6 +66,8 @@ function createRows() {
     tableBody.append(rowDiv);
   }
 
+  //Event Listener for save button
+
   $(".saveBtn").on("click", function (event) {
     var clickedIndex = $(this).attr("data-index");
     // var textInput = $("textArea").val();
@@ -75,7 +80,7 @@ function createRows() {
   });
 }
 
-// function calls
+// Functions
 function init() {
   listOfText = JSON.parse(localStorage.getItem("text"));
   if (listOfText === null) {
@@ -84,5 +89,7 @@ function init() {
     localStorageExist = true;
   }
 }
+
+// Function Calls
 init();
 createRows();
