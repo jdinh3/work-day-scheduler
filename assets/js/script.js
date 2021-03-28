@@ -1,4 +1,6 @@
-const tableBody = $("#table-body"); //$("<div>")
+const tableBody = $("#table-body");
+var listOfText = [];
+var localStorageExist = false;
 
 // Displays current date
 var currentDay = moment().format("dddd, MMMM Do");
@@ -6,39 +8,52 @@ $("#currentDay").text(currentDay);
 
 // generating the rows
 function createRows() {
-  // <tr class="row-div">
-  //       <th class="col d-flex justify-content-between time-cell" scope="row">
-  //         9am
-  //       </th>
-  //       <td class="col-6"><textarea class="user-input"></textarea></td>
-  //       <td class="col">
-  //         <button class="saveBtn" img src="#" alt="save button">Save</button>
-  //       </td>
-  //     </tr>
-
-  const currentHour = parseInt(moment().format("HH"));
+  const currentHour = moment().format("HH:mm a");
+  var times = [
+    "9 am",
+    "10 am",
+    "11 am",
+    "12 pm",
+    "1 pm",
+    "2 pm",
+    "3 pm",
+    "4 pm",
+    "5 pm",
+  ];
 
   for (let index = 0; index < 9; index++) {
-    const rowHour = index + 9;
+    const rowHour = times[index];
     const rowDiv = $("<tr>").addClass("row-div");
-    rowDiv.attr("id", rowHour);
+    rowDiv.attr("id", index);
     const th = $("<th>").addClass(
       "col d-flex justify-content-between time-cell"
     );
-    th.text(rowHour);
     th.attr("scope", "row");
+    th.text(rowHour);
     const td = $("<td>").addClass("col-6 user-input");
     const textArea = $("<textarea>").addClass("user-input");
 
     if (currentHour === rowHour) {
       td.addClass("present");
-    } else if (currentHour > rowHour) {
+    } else if (moment(currentHour).isAfter()) {
       td.addClass("past");
     } else {
       td.addClass("future");
     }
+
+    if (localStorageExist === false) {
+      var textObject = {
+        hour: rowHour,
+        textInput: "",
+      };
+      listOfText.push(textObject);
+    } else {
+      textArea.append(listOfText[index].textInput);
+    }
     const tdBtn = $("<td>").addClass("col");
     const saveBtn = $("<button>").addClass("saveBtn");
+    saveBtn.html("save");
+    saveBtn.attr("data-index", index);
     tdBtn.append(saveBtn);
 
     td.append(textArea);
@@ -49,11 +64,25 @@ function createRows() {
   }
 
   $(".saveBtn").on("click", function (event) {
-    const parentEl = $(this).parent().parent();
-    console.log(parentEl);
-    console.log(parentEl.find(".user-input"));
-    console.log($(this).parent().siblings());
+    var clickedIndex = $(this).attr("data-index");
+    // var textInput = $("textArea").val();
+    var textInput = $("#" + clickedIndex)
+      .find("textarea")
+      .val();
+    listOfText[clickedIndex].textInput = textInput;
+    console.log(textInput);
+    localStorage.setItem("text", JSON.stringify(listOfText));
   });
 }
 
+// function calls
+function init() {
+  listOfText = JSON.parse(localStorage.getItem("text"));
+  if (listOfText === null) {
+    listOfText = [];
+  } else {
+    localStorageExist = true;
+  }
+}
+init();
 createRows();
